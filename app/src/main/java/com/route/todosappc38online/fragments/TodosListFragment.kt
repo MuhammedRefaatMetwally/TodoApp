@@ -1,6 +1,7 @@
 package com.route.todosappc38online.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.kizitonwose.calendar.core.WeekDay
 import com.kizitonwose.calendar.core.atStartOfMonth
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.WeekDayBinder
+import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
 import com.route.todosappc38online.adapters.DayViewHolder
 import com.route.todosappc38online.adapters.TodosListAdapter
@@ -18,6 +20,7 @@ import com.route.todosappc38online.clearTime
 import com.route.todosappc38online.database.TodoDatabase
 import com.route.todosappc38online.database.model.Task
 import com.route.todosappc38online.databinding.FragmentListBinding
+import com.route.todosappc38online.ui.edit_task.EditTaskActivity
 import com.zerobranch.layout.SwipeLayout
 import com.zerobranch.layout.SwipeLayout.SELECTED_WINDOW_FOCUSED_STATE_SET
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
@@ -28,7 +31,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class TodosListFragment : Fragment() ,SwipeActionsListener{
+class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.OnTaskClick{
 
     lateinit var adapter: TodosListAdapter
     lateinit var calendar: Calendar
@@ -118,7 +121,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener{
 
     private fun initViews() {
         calendar = Calendar.getInstance()
-        adapter = TodosListAdapter(null,this)
+        adapter = TodosListAdapter(null,this,this)
         binding.todosRecyclerView.adapter = adapter
 
     }
@@ -163,6 +166,14 @@ class TodosListFragment : Fragment() ,SwipeActionsListener{
     override fun onClose() {
         adapter.updateData(items)
 
+    }
+
+    override fun onClick(task: Task, position: Int) {
+        val intent = Intent(requireContext(), EditTaskActivity::class.java)
+        intent.putExtra(Constant.TASK_TITLE, task.title)
+        intent.putExtra(Constant.TASK_DETAILS, task.description)
+        intent.putExtra(Constant.TASK,task)
+        startActivity(intent)
     }
 
 
