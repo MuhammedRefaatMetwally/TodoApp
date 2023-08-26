@@ -1,48 +1,45 @@
 package com.route.todosappc38online.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.route.todosappc38online.R
-import com.route.todosappc38online.database.model.TodoModel
+import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.databinding.ItemTodoBinding
+import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
 
-class TodosListAdapter(private var todosList: List<TodoModel>? = null) :
-    Adapter<TodosListAdapter.TodosListViewHolder>() {
-    /*
-    1- Swipe to delete
-    2- Edit To task
-    3- Mark As Done
-     */
+class TodosListAdapter(private var todosList: List<Task>? = null , val listener : SwipeActionsListener) : Adapter<TodosListAdapter.TodosListViewHolder>() {
+
+    var position : Int? = null
+    inner class TodosListViewHolder(val binding : ItemTodoBinding) : ViewHolder(binding.root){
+       fun bind(task : Task){
+           binding.todoTitleText.text = task.title
+           binding.descriptionItem.text = task.description
+       }
+   }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodosListViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
-        return TodosListViewHolder(view)
+        val itemBinding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return TodosListViewHolder(itemBinding)
     }
 
     override fun getItemCount(): Int {
         return todosList?.size ?: 0
     }
 
-    fun updateData(todosList: List<TodoModel>?) {
+    fun updateData(todosList: List<Task>?) {
         this.todosList = todosList
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: TodosListViewHolder, position: Int) {
-        val item = todosList?.get(position)
-        holder.time.text = item?.time.toString()
-        holder.title.text = item?.title
-
+       holder.bind(todosList!![position])
+        holder.binding.swipeLayoutX.setOnActionsListener(listener)
+        this.position = position
     }
 
-    class TodosListViewHolder(val view: View) : ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.todo_title_text)
-        val time: TextView = view.findViewById(R.id.todo_time)
-        val checkImage: ImageView = view.findViewById(R.id.todo_check)
-    }
+
 
 
 }

@@ -17,6 +17,9 @@
         <item name="android:background">@color/colorCardBg</item>
     </style>
 
+
+
+
     <style name="day_background">
         <item name="android:background">@color/white</item>
     </style>
