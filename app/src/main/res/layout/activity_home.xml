@@ -23,6 +23,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:textSize="32sp"
+                android:textStyle="bold"
                 android:text="@string/todo_app" />
 
         </Toolbar>

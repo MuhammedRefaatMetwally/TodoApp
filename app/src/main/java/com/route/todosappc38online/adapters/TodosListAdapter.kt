@@ -8,9 +8,12 @@ import com.route.todosappc38online.database.model.Task
 import com.route.todosappc38online.databinding.ItemTodoBinding
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
 
-class TodosListAdapter(private var todosList: List<Task>? = null , val listener : SwipeActionsListener) : Adapter<TodosListAdapter.TodosListViewHolder>() {
+class TodosListAdapter(private var todosList: List<Task>? = null , val listener : SwipeActionsListener,val taskListener : OnTaskClick) : Adapter<TodosListAdapter.TodosListViewHolder>() {
 
     var position : Int? = null
+
+
+
     inner class TodosListViewHolder(val binding : ItemTodoBinding) : ViewHolder(binding.root){
        fun bind(task : Task){
            binding.todoTitleText.text = task.title
@@ -37,7 +40,15 @@ class TodosListAdapter(private var todosList: List<Task>? = null , val listener 
        holder.bind(todosList!![position])
         holder.binding.swipeLayoutX.setOnActionsListener(listener)
         this.position = position
+        holder.binding.cardItemTask.setOnClickListener {
+            taskListener.onClick(task = todosList!![position],position)
+        }
     }
+
+    fun interface OnTaskClick{
+        fun onClick(task: Task,position: Int)
+    }
+
 
 
 
