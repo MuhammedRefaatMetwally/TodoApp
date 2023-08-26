@@ -1,14 +1,19 @@
 package com.route.todosappc38online.database.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+import kotlinx.parcelize.Parcelize
+import java.sql.Date
 
 @Entity(tableName = "todo_table")
-class TodoModel(
+
+@Parcelize
+data class Task(
+
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "ID")
+    @ColumnInfo
     val id: Int? = null,
     @ColumnInfo
     val title: String? = null,
@@ -17,7 +22,7 @@ class TodoModel(
     @ColumnInfo
     val isDone: Boolean? = false,
     @ColumnInfo
-    val time: Date? = null,
+    val date: Long? = null,
 
 
-    )
+    ): Parcelable
