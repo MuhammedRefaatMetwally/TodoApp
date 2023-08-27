@@ -20,7 +20,7 @@ data class Task(
     @ColumnInfo
     val description: String? = null,
     @ColumnInfo
-    val isDone: Boolean? = false,
+    var isDone: Boolean? = false,
     @ColumnInfo
     val date: Long? = null,
 

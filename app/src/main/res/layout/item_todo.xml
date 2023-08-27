@@ -43,12 +43,10 @@
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
-
+       style="@style/day_background"
         android:id="@+id/card_item_task"
-        style="@style/todo_card_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:cardCornerRadius="16dp"
         app:contentPadding="16dp">
 
@@ -76,7 +74,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/description_item"
-                app:layout_constraintEnd_toStartOf="@id/todo_check"
+                app:layout_constraintEnd_toStartOf="@id/done_btn"
                 app:layout_constraintStart_toEndOf="@id/vertical_line"
                 app:layout_constraintTop_toTopOf="@id/vertical_line"
                 tools:text="Play Basketball" />
@@ -88,16 +86,16 @@
                 android:layout_marginHorizontal="20sp"
                 android:drawablePadding="8dp"
                 android:padding="8dp"
-                android:textColor="@color/grey"
                 android:textSize="20sp"
+                style="@style/day_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/todo_check"
+                app:layout_constraintEnd_toStartOf="@id/done_btn"
                 app:layout_constraintStart_toEndOf="@id/vertical_line"
                 app:layout_constraintTop_toBottomOf="@id/todo_title_text"
                 tools:text="Task Description" />
 
             <ImageView
-                android:id="@+id/todo_check"
+                android:id="@+id/done_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_check_bg"

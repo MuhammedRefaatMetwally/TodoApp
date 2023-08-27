@@ -3,6 +3,7 @@
     <style name="Base.Theme.TodosAppC38Online" parent="Theme.Material3.DayNight.NoActionBar">
 
          <item name="colorPrimary">@color/lightPrimary</item>
+         <item name="colorPrimaryDark">@color/lightPrimary</item>
          <item name="colorPrimaryVariant">@color/lightPrimaryDark</item>
          <item name="colorOnPrimary">@color/white</item>
 
@@ -30,5 +31,9 @@
 
     <style name="day_text_color">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="splash_bg">
+        <item name="backgroundColor">@color/lightGreen</item>
     </style>
 </resources>

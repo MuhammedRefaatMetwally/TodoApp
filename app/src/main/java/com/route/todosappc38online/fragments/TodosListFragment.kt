@@ -1,12 +1,15 @@
 package com.route.todosappc38online.fragments
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.kizitonwose.calendar.core.WeekDay
 import com.kizitonwose.calendar.core.atStartOfMonth
@@ -20,6 +23,7 @@ import com.route.todosappc38online.clearTime
 import com.route.todosappc38online.database.TodoDatabase
 import com.route.todosappc38online.database.model.Task
 import com.route.todosappc38online.databinding.FragmentListBinding
+import com.route.todosappc38online.databinding.ItemTodoBinding
 import com.route.todosappc38online.ui.edit_task.EditTaskActivity
 import com.zerobranch.layout.SwipeLayout
 import com.zerobranch.layout.SwipeLayout.SELECTED_WINDOW_FOCUSED_STATE_SET
@@ -36,6 +40,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
     lateinit var adapter: TodosListAdapter
     lateinit var calendar: Calendar
     lateinit var binding : FragmentListBinding
+
     var selectedDate: LocalDate? = null
 
     override fun onCreateView(
@@ -104,7 +109,6 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
                 }
             }
 
-
         }
         
 
@@ -116,6 +120,12 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
         binding.calendarView.setup(startDate, endDate, firstDayOfWeek)
         binding.calendarView.scrollToWeek(currentDate)
 
+        adapter.onDoneClick =
+            TodosListAdapter.OnDoneClick { task, position ->
+                task.copy(isDone = true)
+                TodoDatabase.getInstance(requireContext()).getTodosDao().updateTodo(task)
+
+            }
 
     }
 
@@ -124,6 +134,28 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
         adapter = TodosListAdapter(null,this,this)
         binding.todosRecyclerView.adapter = adapter
 
+    }
+    private val myInterfaceForDialog = DialogInterface.OnClickListener { dialog, which ->
+        when (which) {
+            -1 -> {
+                TodoDatabase.getInstance(requireContext()).getTodosDao().deleteTodo(
+                    adapter.position?.let { items?.get(it) } ?: Task())
+                adapter.position?.let { adapter.notifyItemRemoved(it) }
+                loadTasks()
+            }
+            -2 -> dialog.cancel()
+            else -> Toast.makeText(requireContext(), "Action Canceled", Toast.LENGTH_LONG).show()
+        }
+    }
+    private fun showDialog(){
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setTitle("Are You Sure?")
+        dialogBuilder.setMessage("Delete Task")
+        dialogBuilder.setPositiveButton(R.string.yes, myInterfaceForDialog)
+        dialogBuilder.setNegativeButton(R.string.cancel, myInterfaceForDialog)
+
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
     }
 
     override fun onStart() {
@@ -156,10 +188,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
 
     override fun onOpen(direction: Int, isContinuous: Boolean) {
        if(direction == SwipeLayout.RIGHT){
-           TodoDatabase.getInstance(requireContext()).getTodosDao().deleteTodo(
-               adapter.position?.let { items?.get(it) } ?: Task())
-           adapter.position?.let { adapter.notifyItemRemoved(it) }
-           loadTasks()
+           showDialog()
        }
     }
 

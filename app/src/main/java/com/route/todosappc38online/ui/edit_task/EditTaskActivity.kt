@@ -56,15 +56,39 @@ class EditTaskActivity : AppCompatActivity() {
 
 
         binding.saveChangesBtn.setOnClickListener {
+            if(valid()){
+                val newTask = task?.copy(title = binding.titleEditText.text.toString(),
+                    description = binding.detailsEditText.text.toString(),
+                    date = calendar.timeInMillis,
+                    isDone = false
+                )
 
-           val newTask = task?.copy(title = binding.titleEditText.text.toString(),
-                description = binding.detailsEditText.text.toString(),
-                date = calendar.timeInMillis)
+                TodoDatabase.getInstance(this).getTodosDao().updateTodo(newTask!!)
+                Log.e("title1", newTask.title.toString())
+                finish()
+            }
 
-            TodoDatabase.getInstance(this).getTodosDao().updateTodo(newTask!!)
-            Log.e("title1", newTask.title.toString())
-            finish()
         }
+    }
+
+    private fun valid(): Boolean {
+     var isValid = true
+        if(binding.titleEditText.text!!.isEmpty() ||binding.titleEditText.text!!.isBlank() ){
+            binding.titleEditText.error = "Please Enter Task Title"
+            isValid = false
+        }
+
+        if(binding.detailsEditText.text!!.isEmpty() ||binding.detailsEditText.text!!.isBlank() ){
+            binding.detailsEditText.error = "Please Enter Task Details"
+            isValid = false
+        }
+
+        if(binding.textViewDate.text!!.isEmpty()  ||binding.textViewDate.text!!.isBlank()){
+            binding.dateLayout.error = "Enter Date Please"
+            isValid = false
+            }
+
+        return isValid
     }
 
 
@@ -74,6 +98,8 @@ class EditTaskActivity : AppCompatActivity() {
             datePicker.show()
             datePicker.setOnDateSetListener { view, year, month, dayOfMonth ->
                 binding.textViewDate.text = "$dayOfMonth / ${month + 1} / $year"
+                binding.dateLayout.error = null
+
                 calendar.set(year,month,dayOfMonth)
 
 
