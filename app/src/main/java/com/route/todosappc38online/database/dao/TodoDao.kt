@@ -25,5 +25,5 @@ interface TodoDao {
 
 
     @Query("SELECT * FROM todo_table WHERE date = :time")
-    fun getTodosByDate(time: Date): List<Task>
+    fun getTodosByDate(time: Long): List<Task>
 }

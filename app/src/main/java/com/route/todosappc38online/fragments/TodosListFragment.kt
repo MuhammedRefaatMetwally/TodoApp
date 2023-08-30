@@ -3,6 +3,7 @@ package com.route.todosappc38online.fragments
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,37 +12,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.kizitonwose.calendar.core.WeekDay
-import com.kizitonwose.calendar.core.atStartOfMonth
-import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
-import com.kizitonwose.calendar.view.WeekDayBinder
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
-import com.route.todosappc38online.adapters.DayViewHolder
 import com.route.todosappc38online.adapters.TodosListAdapter
-import com.route.todosappc38online.clearTime
 import com.route.todosappc38online.database.TodoDatabase
 import com.route.todosappc38online.database.model.Task
 import com.route.todosappc38online.databinding.FragmentListBinding
-import com.route.todosappc38online.databinding.ItemTodoBinding
 import com.route.todosappc38online.ui.edit_task.EditTaskActivity
 import com.zerobranch.layout.SwipeLayout
-import com.zerobranch.layout.SwipeLayout.SELECTED_WINDOW_FOCUSED_STATE_SET
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
-import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.TextStyle
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.OnTaskClick{
 
     lateinit var adapter: TodosListAdapter
-    lateinit var calendar: Calendar
+
     lateinit var binding : FragmentListBinding
 
-    var selectedDate: LocalDate? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,90 +48,51 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
 
         initViews()
 
-
-        binding.calendarView.dayBinder = object : WeekDayBinder<DayViewHolder> {
-            override fun create(view: View): DayViewHolder {
-                return DayViewHolder(view)
-            }
-
-
-            override fun bind(container: DayViewHolder, data: WeekDay) {
-
-                container.dayOfWeekText.text = data.date.dayOfWeek.getDisplayName(
-                    TextStyle.SHORT,
-                    Locale.getDefault())
-
-                container.dayOfMonthText.text = data.date.dayOfMonth.toString()
-                val currentSelection = selectedDate
-
-                container.calendarDayView.setOnClickListener {
-                    //   20                20
-                    if (currentSelection == data.date) {
-                        selectedDate = null
-                        getTodosByDate(null)
-                        binding.calendarView.notifyDateChanged(currentSelection)
-                    } else {
-                        selectedDate = data.date
-                        binding.calendarView.notifyDateChanged(data.date)
-                        if (currentSelection != null) {
-                            binding.calendarView.notifyDateChanged(currentSelection)
-                        }
-                    }
-                }
-                if (selectedDate == data.date) {
-                    container.dayOfWeekText.setTextColor(resources.getColor(R.color.blue, null))
-                    container.dayOfMonthText.setTextColor(resources.getColor(R.color.blue, null))
-                    // Set Date
-                    Log.e("TAG", "bind: MONTH (Github Library) = ${selectedDate?.monthValue}")
-                    Log.e("TAG", "bind: MONTH (Calendar Class) = ${calendar.get(Calendar.MONTH)}")
-                    calendar.set(Calendar.DAY_OF_MONTH, selectedDate?.dayOfMonth!!)
-                    calendar.set(Calendar.MONTH, selectedDate?.monthValue?.minus(1)!!)
-                    calendar.set(Calendar.YEAR, selectedDate?.year!!)
-
-                    // Clear Time
-                    calendar.clearTime()
-                    Log.e("TAG", "bind: ${calendar.time.time}")
-                    getTodosByDate(calendar.time)
-                } else {
-                    container.dayOfWeekText.setTextColor(resources.getColor(R.color.black, null))
-                    container.dayOfMonthText.setTextColor(resources.getColor(R.color.black, null))
-
-                }
-            }
-
-        }
-        
-
-        val currentDate = LocalDate.now()
-        val currentMonth = YearMonth.now()
-        val startDate = currentMonth.minusMonths(100).atStartOfMonth() // Adjust as needed
-        val endDate = currentMonth.plusMonths(100).atEndOfMonth()  // Adjust as needed
-        val firstDayOfWeek = firstDayOfWeekFromLocale() // Available from the library
-        binding.calendarView.setup(startDate, endDate, firstDayOfWeek)
-        binding.calendarView.scrollToWeek(currentDate)
-
         adapter.onDoneClick =
             TodosListAdapter.OnDoneClick { task, position ->
-                task.copy(isDone = true)
+                task.isDone = true
+
                 TodoDatabase.getInstance(requireContext()).getTodosDao().updateTodo(task)
 
+                adapter.notifyItemChanged(position)
             }
 
     }
+     val selectedDate = Calendar.getInstance()
 
-    private fun initViews() {
-        calendar = Calendar.getInstance()
-        adapter = TodosListAdapter(null,this,this)
-        binding.todosRecyclerView.adapter = adapter
-
+    init {
+       selectedDate.clear()
     }
+var task : Task? = null
+    private fun initViews() {
+
+        adapter = TodosListAdapter(null,this,this)
+        binding.calendarView.selectedDate = CalendarDay.today()
+
+        binding.calendarView.setOnDateChangedListener(OnDateSelectedListener { widget, date, selected ->
+            if(selected){
+               selectedDate.set(Calendar.YEAR,date.year)
+               selectedDate.set(Calendar.MONTH,date.month-1) // 3shan fe addToDoFragment el calander Month bybd2 mn  0 ama date  calnderView bybd2 mn 1 3ady fa hn2so 3shan dnya tzbot
+               selectedDate.set(Calendar.DAY_OF_MONTH,date.day)
+                loadDateTasks()
+            }
+        })
+
+        binding.todosRecyclerView.adapter = adapter
+        adapter.onDeleteCLick =
+            TodosListAdapter.onDeleteClick { task, position ->
+                showDialog()
+                this.task = task
+            }
+    }
+
+
     private val myInterfaceForDialog = DialogInterface.OnClickListener { dialog, which ->
         when (which) {
             -1 -> {
-                TodoDatabase.getInstance(requireContext()).getTodosDao().deleteTodo(
-                    adapter.position?.let { items?.get(it) } ?: Task())
-                adapter.position?.let { adapter.notifyItemRemoved(it) }
-                loadTasks()
+                task?.let { TodoDatabase.getInstance(requireContext()).getTodosDao().deleteTodo(it) }
+                adapter.taskDeleted(task)
+
             }
             -2 -> dialog.cancel()
             else -> Toast.makeText(requireContext(), "Action Canceled", Toast.LENGTH_LONG).show()
@@ -160,40 +111,28 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
 
     override fun onStart() {
         super.onStart()
-        loadTasks()
+        loadDateTasks()
     }
-     var items: MutableList<Task>? = null
-     fun loadTasks() {
+
+     var items: List<Task>? = null
+     fun loadDateTasks() {
         context?.let {
-             items = TodoDatabase.getInstance(it).getTodosDao().getAllTodos()
-            adapter.updateData(items)
+             items = TodoDatabase.getInstance(it).getTodosDao().getTodosByDate(selectedDate.timeInMillis)
+            adapter.updateData(items!!.toMutableList())
         }
     }
 
-    fun getTodosByDate(selectedDate: Date?) {
-        val todosList = if (selectedDate != null)
-            TodoDatabase
-                .getInstance(requireContext())
-                .getTodosDao()
-                .getTodosByDate(selectedDate)
-        else
-            TodoDatabase
-                .getInstance(requireContext())
-                .getTodosDao()
-                .getAllTodos()
-        adapter.updateData(todosList)
 
 
-    }
 
     override fun onOpen(direction: Int, isContinuous: Boolean) {
        if(direction == SwipeLayout.RIGHT){
-           showDialog()
+
        }
     }
 
     override fun onClose() {
-        adapter.updateData(items)
+
 
     }
 

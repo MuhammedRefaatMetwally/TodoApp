@@ -3,20 +3,18 @@ package com.route.todosappc38online.ui.home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.ActivityHomeBinding
 import com.route.todosappc38online.fragments.AddTodoBottomSheetFragment
 import com.route.todosappc38online.fragments.SettingsFragment
 import com.route.todosappc38online.fragments.TodosListFragment
-import com.zerobranch.layout.SwipeLayout
 
 class HomeActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityHomeBinding
      var todosListFragment  : TodosListFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -43,13 +41,14 @@ class HomeActivity : AppCompatActivity() {
         binding.addTodoButton.setOnClickListener {
             showBottomSheet()
         }
+
     }
 
     private fun showBottomSheet() {
         val bottomSheetFragment = AddTodoBottomSheetFragment()
         bottomSheetFragment.onTaskAddedListener = AddTodoBottomSheetFragment.OnTaskAddedListener {
             Snackbar.make(binding.root,"Task Added Successfully",Snackbar.LENGTH_LONG).show()
-            todosListFragment?.loadTasks()
+            todosListFragment?.loadDateTasks()
         }
         bottomSheetFragment.show(supportFragmentManager, "Add-Todo")
 

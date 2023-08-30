@@ -40,16 +40,14 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         calendar = Calendar.getInstance()
 
-        binding.dateEditText.text =
-            "${calendar.get(Calendar.DAY_OF_MONTH)} / ${calendar.get(Calendar.MONTH) + 1} / ${
-                calendar.get(Calendar.YEAR)
-            }"
 
         binding.dateLayout.setOnClickListener {
             showDatePicker()
         }
         binding.addTodoBtn.setOnClickListener {
-            addTodoToDataBase()
+            if(validateFields()){
+                addTodoToDataBase()
+            }
         }
     }
 
@@ -71,7 +69,7 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
 
         if (binding.dateEditText.text.toString().isEmpty() || binding.dateEditText.text.toString().isBlank()
         ) {
-            binding.dateEditText.error = "Date Required"
+            binding.dateLayout.error = "Date Required"
             isValid = false
         }
 
@@ -80,7 +78,7 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun addTodoToDataBase() {
-        if (validateFields()) {
+
             val task = Task(
                 title = binding.titleEditText.text.toString(),
                 description = binding.descriptionEditText.text.toString(),
@@ -94,9 +92,6 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
                 .insertTodo(task)
             onTaskAddedListener?.onTaskAdded()
             dismiss()
-        }
-
-
     }
     var onTaskAddedListener : OnTaskAddedListener? = null
     fun interface OnTaskAddedListener{
