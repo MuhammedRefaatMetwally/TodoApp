@@ -7,8 +7,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.ActivityHomeBinding
 import com.route.todosappc38online.fragments.AddTodoBottomSheetFragment
-import com.route.todosappc38online.fragments.SettingsFragment
 import com.route.todosappc38online.fragments.TodosListFragment
+import com.route.todosappc38online.fragments.settings_frag.SettingsFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
         val bottomSheetFragment = AddTodoBottomSheetFragment()
         bottomSheetFragment.onTaskAddedListener = AddTodoBottomSheetFragment.OnTaskAddedListener {
             Snackbar.make(binding.root,"Task Added Successfully",Snackbar.LENGTH_LONG).show()
-            todosListFragment?.loadDateTasks()
+            todosListFragment?.loadTaskViewModel()
         }
         bottomSheetFragment.show(supportFragmentManager, "Add-Todo")
 

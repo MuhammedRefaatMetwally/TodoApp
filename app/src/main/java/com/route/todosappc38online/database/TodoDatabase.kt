@@ -19,16 +19,19 @@ abstract class TodoDatabase : RoomDatabase() {
     companion object {
         private val DATABASE_NAME = "Todos-Database"
         private var instance: TodoDatabase? = null
-        fun getInstance(context: Context): TodoDatabase {
+
+        fun init(context: Context){
             if (instance == null) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     TodoDatabase::class.java,
                     DATABASE_NAME
                 ).fallbackToDestructiveMigration()
-                 .allowMainThreadQueries()
+                    .allowMainThreadQueries()
                     .build()
             }
+        }
+        fun getInstance(): TodoDatabase {
             return instance!!
         }
 

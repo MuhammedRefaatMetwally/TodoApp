@@ -1,4 +1,4 @@
-package com.route.todosappc38online.fragments
+package com.route.todosappc38online.fragments.settings_frag
 
 import android.os.Bundle
 import android.view.LayoutInflater

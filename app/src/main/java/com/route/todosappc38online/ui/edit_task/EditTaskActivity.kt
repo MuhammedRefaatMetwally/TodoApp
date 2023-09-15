@@ -63,7 +63,7 @@ class EditTaskActivity : AppCompatActivity() {
                     isDone = false
                 )
 
-                TodoDatabase.getInstance(this).getTodosDao().updateTodo(newTask!!)
+                TodoDatabase.getInstance().getTodosDao().updateTodo(newTask!!)
                 Log.e("title1", newTask.title.toString())
                 finish()
             }

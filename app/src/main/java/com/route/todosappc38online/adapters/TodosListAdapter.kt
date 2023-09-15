@@ -28,11 +28,12 @@ class TodosListAdapter(private var todosList: MutableList<Task>? = null , val li
     var selectedDate : Long? = null
 
     inner class TodosListViewHolder(val binding : ItemTodoBinding) : ViewHolder(binding.root){
-       fun bind(task : Task){
-           binding.todoTitleText.text = task.title
-           binding.descriptionItem.text = task.description
-       }
-   }
+        fun bind(task : Task){
+            binding.todoTitleText.text = task.title
+            binding.descriptionItem.text = task.description
+            binding.executePendingBindings()
+        }
+    }
 
     fun setDate(selectedDate: Long){
         this.selectedDate= selectedDate
@@ -40,7 +41,7 @@ class TodosListAdapter(private var todosList: MutableList<Task>? = null , val li
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodosListViewHolder {
-         itemToDoBinding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        itemToDoBinding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return TodosListViewHolder(itemToDoBinding!!)
     }
 
@@ -54,7 +55,7 @@ class TodosListAdapter(private var todosList: MutableList<Task>? = null , val li
     }
 
     override fun onBindViewHolder(holder: TodosListViewHolder, position: Int) {
-       holder.bind(todosList!![position])
+        holder.bind(todosList!![position])
         holder.binding.swipeLayoutX.setOnActionsListener(listener)
         this.position = position
 
@@ -75,10 +76,10 @@ class TodosListAdapter(private var todosList: MutableList<Task>? = null , val li
             holder.binding.doneBtn.setImageResource(R.drawable.ic_check)
         }
 
-       holder.binding.deleteIcon.setOnClickListener {
-           holder.binding.swipeLayoutX.close(true)
-           onDeleteCLick?.onDelete(todosList!![position],position)
-       }
+        holder.binding.deleteIcon.setOnClickListener {
+            holder.binding.swipeLayoutX.close(true)
+            onDeleteCLick?.onDelete(todosList!![position],position)
+        }
 
         holder.binding.doneBtn.setOnClickListener {
             onDoneClick?.updateDatabase(todosList!![position],position)
