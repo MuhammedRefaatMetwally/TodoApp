@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import com.route.isalmic38online.core.local_data_source.AppSharedReferences
+import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.FragmentSettingsBinding
 import java.util.Locale
@@ -52,13 +53,13 @@ class SettingsFragment : Fragment() {
                 id: Long
             ) {
                 if (position == 1 ) {
-                    val localeListCompat = LocaleListCompat.create(Locale("en"))
-                     AppSharedReferences.write("language",true)
+                    val localeListCompat = LocaleListCompat.create(Locale(Constant.ENGLISH))
+                     AppSharedReferences.write(Constant.LANGUAGE_MODE,true)
 
                     AppCompatDelegate.setApplicationLocales(localeListCompat)
                 } else if (position == 2) {
-                    val localeListCompat = LocaleListCompat.create(Locale("ar"))
-                    AppSharedReferences.write("language",false)
+                    val localeListCompat = LocaleListCompat.create(Locale(Constant.ARABIC))
+                    AppSharedReferences.write(Constant.LANGUAGE_MODE,false)
                     AppCompatDelegate.setApplicationLocales(localeListCompat)
                 }
             }
@@ -78,10 +79,10 @@ class SettingsFragment : Fragment() {
             ) {
                 if (position == 1) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    AppSharedReferences.write("mode",true)
+                    AppSharedReferences.write(Constant.DARK_MODE,true)
                 } else if (position == 2) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    AppSharedReferences.write("mode",false)
+                    AppSharedReferences.write(Constant.DARK_MODE,false)
 
                 }
             }

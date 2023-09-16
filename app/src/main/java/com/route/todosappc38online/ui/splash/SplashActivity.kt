@@ -8,6 +8,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.route.isalmic38online.core.local_data_source.AppSharedReferences
+import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
 import com.route.todosappc38online.ui.home.HomeActivity
 import java.util.Locale
@@ -40,17 +41,17 @@ class SplashActivity : AppCompatActivity() {
 
     private fun isLanguageMode() {
         if(languageMode){
-            val localeListCompat = LocaleListCompat.create(Locale("en"))
+            val localeListCompat = LocaleListCompat.create(Locale(Constant.ENGLISH))
             AppCompatDelegate.setApplicationLocales(localeListCompat)
         }else{
-            val localeListCompat = LocaleListCompat.create(Locale("ar"))
+            val localeListCompat = LocaleListCompat.create(Locale(Constant.ARABIC))
             AppCompatDelegate.setApplicationLocales(localeListCompat)
         }
     }
 
     private fun initParams() {
-    nightMode = AppSharedReferences.read("mode",false)
-    languageMode = AppSharedReferences.read("language",false)
+    nightMode = AppSharedReferences.read(Constant.DARK_MODE,false)
+    languageMode = AppSharedReferences.read(Constant.LANGUAGE_MODE,false)
     }
 
 
