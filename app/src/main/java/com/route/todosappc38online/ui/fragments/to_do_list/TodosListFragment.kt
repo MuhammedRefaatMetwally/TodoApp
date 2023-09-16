@@ -15,11 +15,11 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
-import com.route.todosappc38online.adapters.TodosListAdapter
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.ui.adapters.TodosListAdapter
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.FragmentListBinding
-import com.route.todosappc38online.fragments.to_do_list.ToDoListViewModel
+import com.route.todosappc38online.ui.fragments.to_do_list.ToDoListViewModel
 import com.route.todosappc38online.ui.edit_task.EditTaskActivity
 import com.zerobranch.layout.SwipeLayout
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener

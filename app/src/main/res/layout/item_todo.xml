@@ -7,7 +7,7 @@
     <data>
      <variable
          name="todo"
-         type="com.route.todosappc38online.database.model.Task" />
+         type="com.route.todosappc38online.data.database.model.Task" />
     </data>
 
     <com.zerobranch.layout.SwipeLayout

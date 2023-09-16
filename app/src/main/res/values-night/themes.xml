@@ -39,7 +39,7 @@
     </style>
 
    <style name="splash_bg">
-       <item name="android:background">@color/cardColorDark</item>
+       <item name="android:background">@color/colorBlack</item>
    </style>
 
     <style name="settingsViewColor">

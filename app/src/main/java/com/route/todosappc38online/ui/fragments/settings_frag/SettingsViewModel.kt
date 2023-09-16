@@ -1,4 +1,4 @@
-package com.route.todosappc38online.fragments.settings_frag
+package com.route.todosappc38online.ui.fragments.settings_frag
 
 import androidx.lifecycle.ViewModel
 

@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.clearTime
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.ActivityEditTaskBinding
 import java.util.Calendar
 
@@ -48,7 +48,7 @@ class EditTaskActivity : AppCompatActivity() {
         }
 
         task = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            intent.getParcelableExtra(Constant.TASK,Task::class.java)!!
+            intent.getParcelableExtra(Constant.TASK, Task::class.java)!!
         }else{
             intent.getParcelableExtra(Constant.TASK)!!
         }

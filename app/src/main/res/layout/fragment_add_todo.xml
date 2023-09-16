@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.route.todosappc38online.fragments.addTodo.AddTodoViewModel" />
+            type="com.route.todosappc38online.ui.fragments.addTodo.AddTodoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

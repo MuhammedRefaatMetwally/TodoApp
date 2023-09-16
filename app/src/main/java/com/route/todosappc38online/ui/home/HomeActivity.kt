@@ -8,7 +8,7 @@ import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.ActivityHomeBinding
 import com.route.todosappc38online.fragments.AddTodoBottomSheetFragment
 import com.route.todosappc38online.fragments.TodosListFragment
-import com.route.todosappc38online.fragments.settings_frag.SettingsFragment
+import com.route.todosappc38online.ui.fragments.settings_frag.SettingsFragment
 
 class HomeActivity : AppCompatActivity() {
 

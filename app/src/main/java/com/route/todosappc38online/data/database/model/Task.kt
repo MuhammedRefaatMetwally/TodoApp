@@ -1,4 +1,4 @@
-package com.route.todosappc38online.database.model
+package com.route.todosappc38online.data.database.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

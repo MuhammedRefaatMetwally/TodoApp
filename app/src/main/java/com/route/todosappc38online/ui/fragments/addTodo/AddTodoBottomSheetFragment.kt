@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.route.todosappc38online.R
 import com.route.todosappc38online.clearTime
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.FragmentAddTodoBinding
-import com.route.todosappc38online.fragments.addTodo.AddTodoViewModel
+import com.route.todosappc38online.ui.fragments.addTodo.AddTodoViewModel
 import java.util.Calendar
 
 class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {

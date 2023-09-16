@@ -1,4 +1,4 @@
-package com.route.todosappc38online.fragments.settings_frag
+package com.route.todosappc38online.ui.fragments.settings_frag
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
+import com.route.isalmic38online.core.local_data_source.AppSharedReferences
 import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.FragmentSettingsBinding
 import java.util.Locale
@@ -19,6 +20,7 @@ import java.util.Locale
 class SettingsFragment : Fragment() {
 
     lateinit var binding : FragmentSettingsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +43,7 @@ class SettingsFragment : Fragment() {
         adapterMod.setDropDownViewResource(R.layout.spinner_item)
         binding.modeSpinner.adapter = adapterMod
 
+
         binding.languageSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -48,16 +51,18 @@ class SettingsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if (position == 1) {
+                if (position == 1 ) {
                     val localeListCompat = LocaleListCompat.create(Locale("en"))
+                     AppSharedReferences.write("language",true)
 
                     AppCompatDelegate.setApplicationLocales(localeListCompat)
                 } else if (position == 2) {
                     val localeListCompat = LocaleListCompat.create(Locale("ar"))
-
+                    AppSharedReferences.write("language",false)
                     AppCompatDelegate.setApplicationLocales(localeListCompat)
                 }
             }
+
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -73,8 +78,10 @@ class SettingsFragment : Fragment() {
             ) {
                 if (position == 1) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    AppSharedReferences.write("mode",true)
                 } else if (position == 2) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    AppSharedReferences.write("mode",false)
 
                 }
             }

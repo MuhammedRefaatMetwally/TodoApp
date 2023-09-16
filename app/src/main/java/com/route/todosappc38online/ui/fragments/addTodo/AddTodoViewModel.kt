@@ -1,11 +1,11 @@
-package com.route.todosappc38online.fragments.addTodo
+package com.route.todosappc38online.ui.fragments.addTodo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.route.todosappc38online.R
 import com.route.todosappc38online.clearTime
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import java.util.Calendar
 
 class AddTodoViewModel : ViewModel() {

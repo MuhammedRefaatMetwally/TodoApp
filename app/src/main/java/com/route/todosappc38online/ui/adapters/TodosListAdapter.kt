@@ -1,4 +1,4 @@
-package com.route.todosappc38online.adapters
+package com.route.todosappc38online.ui.adapters
 
 import android.content.Context
 import android.graphics.Color
@@ -12,12 +12,12 @@ import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.route.todosappc38online.R
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.ItemTodoBinding
 import com.zerobranch.layout.SwipeLayout
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
 
-class TodosListAdapter(private var todosList: MutableList<Task>? = null , val listener : SwipeActionsListener,val taskListener : OnTaskClick) : Adapter<TodosListAdapter.TodosListViewHolder>() {
+class TodosListAdapter(private var todosList: MutableList<Task>? = null, val listener : SwipeActionsListener, val taskListener : OnTaskClick) : Adapter<TodosListAdapter.TodosListViewHolder>() {
 
     var position : Int? = null
 
@@ -99,11 +99,11 @@ class TodosListAdapter(private var todosList: MutableList<Task>? = null , val li
     }
 
     fun interface OnTaskClick{
-        fun onClick(task: Task,position: Int)
+        fun onClick(task: Task, position: Int)
     }
 
     fun interface OnDoneClick{
-        fun updateDatabase(task: Task,position: Int)
+        fun updateDatabase(task: Task, position: Int)
     }
 
 
