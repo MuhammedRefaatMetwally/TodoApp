@@ -91,9 +91,11 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
     }
 
     private fun setupLiveData() {
+
         viewModel.tasks.observe(viewLifecycleOwner){
             adapter.updateData(it?.toMutableList())
         }
+
     }
 
 

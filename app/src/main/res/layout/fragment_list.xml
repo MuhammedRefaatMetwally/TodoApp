@@ -18,9 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mcv_showOtherDates="all"
-        android:background="@color/white"
+        style="@style/calenderColor"
         app:layout_constraintTop_toTopOf="@id/toolbar_bg"
-        app:mcv_selectionColor="@color/blue"
         app:mcv_calendarMode="week"
         />
     <!--<com.kizitonwose.calendar.view.WeekCalendarView

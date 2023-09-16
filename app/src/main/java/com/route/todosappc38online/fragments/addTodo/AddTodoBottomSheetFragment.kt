@@ -60,8 +60,6 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
 
-
-
     var onTaskAddedListener : OnTaskAddedListener? = null
     fun interface OnTaskAddedListener{
         fun onTaskAdded()

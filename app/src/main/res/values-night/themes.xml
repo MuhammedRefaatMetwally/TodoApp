@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TodosAppC38Online" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimaryDark">@color/lightPrimary</item>
+        <item name="colorPrimaryDark">@color/cardColorDark</item>
     </style>
 
     <style name="activity_background_color">
@@ -18,7 +18,17 @@
     </style>
 
 
-
+    <style name="spinner_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/spinner_bg_dark</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:popupBackground">@color/cardColorDark</item>
+    </style>
 
     <style name="day_background">
         <item name="android:background">@color/cardColorDark</item>
@@ -29,6 +39,25 @@
     </style>
 
    <style name="splash_bg">
-       <item name="android:background">@color/colorBlack</item>
+       <item name="android:background">@color/cardColorDark</item>
    </style>
+
+    <style name="settingsViewColor">
+        <item name="android:background">@color/cardColorDark</item>
+    </style>
+
+    <style name="homeToolBarColor">
+        <item name="android:backgroundTint">@color/cardColorDark</item>
+
+    </style>
+    <style name="calenderColor">
+        <item name="android:background">@color/blue</item>
+        <item name="mcv_selectionColor">@color/cardColorDark</item>
+        <item name="mcv_arrowColor">@color/white</item>
+    </style>
+
+
+    <style name="spinner_text_color">
+        <item name="android:textColor">@color/blue</item>
+    </style>
 </resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -14,9 +15,9 @@ import com.route.todosappc38online.R
 import com.route.todosappc38online.databinding.FragmentSettingsBinding
 import java.util.Locale
 
+
 class SettingsFragment : Fragment() {
-    lateinit var languageSpinner: Spinner
-    lateinit var modeSpinner: Spinner
+
     lateinit var binding : FragmentSettingsBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,10 +30,18 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        languageSpinner = view.findViewById(R.id.language_spinner)
-        modeSpinner = view.findViewById(R.id.mode_spinner)
 
-        languageSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        val listLanguage = listOf("Select Language","English" , "Arabic")
+        val listMode = listOf("Select Light / Dark Mode","Light Mode" , "Dark Mode")
+        val adapterLanguage = ArrayAdapter(requireContext(),R.layout.spinner_item, listLanguage)
+        adapterLanguage.setDropDownViewResource(R.layout.spinner_item)
+        binding.languageSpinner.adapter = adapterLanguage
+
+        val adapterMod  = ArrayAdapter(requireContext(),R.layout.spinner_item, listMode)
+        adapterMod.setDropDownViewResource(R.layout.spinner_item)
+        binding.modeSpinner.adapter = adapterMod
+
+        binding.languageSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -55,7 +64,7 @@ class SettingsFragment : Fragment() {
             }
 
         }
-        modeSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        binding.modeSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,

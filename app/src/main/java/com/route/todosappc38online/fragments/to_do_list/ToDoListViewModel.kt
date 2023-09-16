@@ -10,6 +10,9 @@ class ToDoListViewModel : ViewModel() {
 
     val tasks = MutableLiveData<List<Task>>()
 
+    val itemTitle  = MutableLiveData<String>()
+    val itemDescr  = MutableLiveData<String>()
+
     fun loadDateTasks(date : Calendar) {
             tasks.value = TodoDatabase.getInstance().getTodosDao().getTodosByDate(date.timeInMillis)
     }
@@ -17,4 +20,5 @@ class ToDoListViewModel : ViewModel() {
     fun deleteTask(task: Task) {
         TodoDatabase.getInstance().getTodosDao().deleteTodo(task)
     }
+
 }
