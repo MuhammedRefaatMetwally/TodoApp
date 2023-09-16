@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.clearTime
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.ActivityEditTaskBinding
 import java.util.Calendar
 
@@ -48,7 +48,7 @@ class EditTaskActivity : AppCompatActivity() {
         }
 
         task = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            intent.getParcelableExtra(Constant.TASK,Task::class.java)!!
+            intent.getParcelableExtra(Constant.TASK, Task::class.java)!!
         }else{
             intent.getParcelableExtra(Constant.TASK)!!
         }
@@ -56,15 +56,39 @@ class EditTaskActivity : AppCompatActivity() {
 
 
         binding.saveChangesBtn.setOnClickListener {
+            if(valid()){
+                val newTask = task?.copy(title = binding.titleEditText.text.toString(),
+                    description = binding.detailsEditText.text.toString(),
+                    date = calendar.timeInMillis,
+                    isDone = false
+                )
 
-           val newTask = task?.copy(title = binding.titleEditText.text.toString(),
-                description = binding.detailsEditText.text.toString(),
-                date = calendar.timeInMillis)
+                TodoDatabase.getInstance().getTodosDao().updateTodo(newTask!!)
+                Log.e("title1", newTask.title.toString())
+                finish()
+            }
 
-            TodoDatabase.getInstance(this).getTodosDao().updateTodo(newTask!!)
-            Log.e("title1", newTask.title.toString())
-            finish()
         }
+    }
+
+    private fun valid(): Boolean {
+     var isValid = true
+        if(binding.titleEditText.text!!.isEmpty() ||binding.titleEditText.text!!.isBlank() ){
+            binding.titleEditText.error = "Please Enter Task Title"
+            isValid = false
+        }
+
+        if(binding.detailsEditText.text!!.isEmpty() ||binding.detailsEditText.text!!.isBlank() ){
+            binding.detailsEditText.error = "Please Enter Task Details"
+            isValid = false
+        }
+
+        if(binding.textViewDate.text!!.isEmpty()  ||binding.textViewDate.text!!.isBlank()){
+            binding.dateLayout.error = "Enter Date Please"
+            isValid = false
+            }
+
+        return isValid
     }
 
 
@@ -74,6 +98,8 @@ class EditTaskActivity : AppCompatActivity() {
             datePicker.show()
             datePicker.setOnDateSetListener { view, year, month, dayOfMonth ->
                 binding.textViewDate.text = "$dayOfMonth / ${month + 1} / $year"
+                binding.dateLayout.error = null
+
                 calendar.set(year,month,dayOfMonth)
 
 

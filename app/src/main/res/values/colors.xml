@@ -10,6 +10,8 @@
     <color name="blue">#5D9CEC</color>
     <color name="grey">#515050</color>
     <color name="colorBlack">#060E1E</color>
+    <color name="cardColorDark">#141922</color>
     <color name="colorCardBg">#F44336</color>
     <color name="delete_bg">#ff5722</color>
+    <color name="done_green">#61E757</color>
 </resources>

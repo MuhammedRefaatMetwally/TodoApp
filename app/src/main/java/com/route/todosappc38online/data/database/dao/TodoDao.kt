@@ -1,11 +1,11 @@
-package com.route.todosappc38online.database.dao
+package com.route.todosappc38online.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.model.Task
 import java.util.Date
 
 //Data Access Object
@@ -25,5 +25,5 @@ interface TodoDao {
 
 
     @Query("SELECT * FROM todo_table WHERE date = :time")
-    fun getTodosByDate(time: Date): List<Task>
+    fun getTodosByDate(time: Long): List<Task>
 }

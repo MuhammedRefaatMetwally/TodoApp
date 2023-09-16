@@ -1,4 +1,4 @@
-package com.route.todosappc38online.database.model
+package com.route.todosappc38online.data.database.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -20,7 +20,7 @@ data class Task(
     @ColumnInfo
     val description: String? = null,
     @ColumnInfo
-    val isDone: Boolean? = false,
+    var isDone: Boolean? = false,
     @ColumnInfo
     val date: Long? = null,
 

@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.route.todosappc38online.R
 import com.route.todosappc38online.clearTime
-import com.route.todosappc38online.database.TodoDatabase
-import com.route.todosappc38online.database.model.Task
+import com.route.todosappc38online.data.database.TodoDatabase
+import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.FragmentAddTodoBinding
+import com.route.todosappc38online.ui.fragments.addTodo.AddTodoViewModel
 import java.util.Calendar
 
 class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
@@ -22,12 +24,15 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
     lateinit var calendar: Calendar
 
     lateinit var binding : FragmentAddTodoBinding
+
+    lateinit var viewModel: AddTodoViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddTodoBinding.inflate(inflater,container,false)
+        viewModel = ViewModelProvider(this)[AddTodoViewModel::class.java]
         return binding.root
     }
 
@@ -40,64 +45,21 @@ class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         calendar = Calendar.getInstance()
 
-        binding.dateEditText.text =
-            "${calendar.get(Calendar.DAY_OF_MONTH)} / ${calendar.get(Calendar.MONTH) + 1} / ${
-                calendar.get(Calendar.YEAR)
-            }"
-
+       binding.vm = viewModel
         binding.dateLayout.setOnClickListener {
             showDatePicker()
         }
         binding.addTodoBtn.setOnClickListener {
-            addTodoToDataBase()
+            if(viewModel.validateFields()){
+                viewModel.addTodoToDataBase(calendar){
+                    onTaskAddedListener?.onTaskAdded()
+                    dismiss()
+                }
+            }
         }
     }
 
-    private fun validateFields(): Boolean {
 
-         var isValid = true
-
-        if (binding.titleEditText.text.toString().isEmpty() || binding.titleEditText.text.toString().isBlank()) {
-            binding.titleEditText.error = getString(R.string.title_required)
-            isValid = false
-
-        }
-
-        if (binding.descriptionEditText.text.toString().isEmpty() || binding.descriptionEditText.text.toString().isBlank()
-        ) {
-            binding.descriptionEditText.error = "Description Required"
-            isValid = false
-        }
-
-        if (binding.dateEditText.text.toString().isEmpty() || binding.dateEditText.text.toString().isBlank()
-        ) {
-            binding.dateEditText.error = "Date Required"
-            isValid = false
-        }
-
-
-        return isValid
-    }
-
-    private fun addTodoToDataBase() {
-        if (validateFields()) {
-            val task = Task(
-                title = binding.titleEditText.text.toString(),
-                description = binding.descriptionEditText.text.toString(),
-                date = calendar.timeInMillis
-            )
-            calendar.clearTime()
-
-            TodoDatabase
-                .getInstance(requireContext())
-                .getTodosDao()
-                .insertTodo(task)
-            onTaskAddedListener?.onTaskAdded()
-            dismiss()
-        }
-
-
-    }
     var onTaskAddedListener : OnTaskAddedListener? = null
     fun interface OnTaskAddedListener{
         fun onTaskAdded()

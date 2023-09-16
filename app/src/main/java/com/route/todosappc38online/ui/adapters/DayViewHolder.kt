@@ -1,4 +1,4 @@
-package com.route.todosappc38online.adapters
+package com.route.todosappc38online.ui.adapters
 
 import android.view.View
 import android.widget.TextView
