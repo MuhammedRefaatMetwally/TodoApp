@@ -4,16 +4,17 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.route.todosappc38online"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.route.todosappc38online"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -45,8 +46,18 @@ android {
 }
 
 dependencies {
+   val hilt_version = "2.44"
+    //Hilt-Dagger
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt ("com.google.dagger:hilt-compiler:$hilt_version")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
     implementation("com.github.zerobranch:SwipeLayout:1.3.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -58,6 +69,7 @@ dependencies {
     val room_version = "2.5.0"
 
     implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
 // swipe to delete

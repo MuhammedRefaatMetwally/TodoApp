@@ -23,8 +23,11 @@ import com.route.todosappc38online.ui.fragments.to_do_list.ToDoListViewModel
 import com.route.todosappc38online.ui.edit_task.EditTaskActivity
 import com.zerobranch.layout.SwipeLayout
 import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import java.util.Calendar
 
+@AndroidEntryPoint
 class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.OnTaskClick{
 
     lateinit var adapter: TodosListAdapter
@@ -53,7 +56,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
             TodosListAdapter.OnDoneClick { task, position ->
                 task.isDone = true
 
-                TodoDatabase.getInstance().getTodosDao().updateTodo(task)
+                viewModel.updateTask(task)
 
                 adapter.notifyItemChanged(position)
             }
@@ -90,7 +93,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
         setupLiveData()
     }
 
-    private fun setupLiveData() {
+    private  fun setupLiveData() {
 
         viewModel.tasks.observe(viewLifecycleOwner){
             adapter.updateData(it?.toMutableList())
@@ -102,6 +105,7 @@ class TodosListFragment : Fragment() ,SwipeActionsListener , TodosListAdapter.On
     private val myInterfaceForDialog = DialogInterface.OnClickListener { dialog, which ->
         when (which) {
             -1 -> {
+
                 viewModel.deleteTask(task)
                 adapter.taskDeleted(task)
             }

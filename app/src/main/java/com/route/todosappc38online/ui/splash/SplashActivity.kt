@@ -11,7 +11,10 @@ import com.route.isalmic38online.core.local_data_source.AppSharedReferences
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.R
 import com.route.todosappc38online.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
+
+
 
 class SplashActivity : AppCompatActivity() {
     var nightMode = false

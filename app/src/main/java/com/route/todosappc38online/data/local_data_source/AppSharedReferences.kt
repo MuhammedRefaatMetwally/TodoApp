@@ -9,8 +9,6 @@ object AppSharedReferences {
 
     private const val PREFS_NAME = "SharedPrefs"
 
-    const val ID_USER = "id_user"
-    const val TOKEN = "token"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

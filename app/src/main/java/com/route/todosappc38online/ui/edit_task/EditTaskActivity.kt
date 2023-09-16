@@ -6,21 +6,25 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.route.todosappc38online.Constant
 import com.route.todosappc38online.clearTime
 import com.route.todosappc38online.data.database.TodoDatabase
 import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.ActivityEditTaskBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
-
+@AndroidEntryPoint
 class EditTaskActivity : AppCompatActivity() {
     lateinit var calendar : Calendar
     lateinit var  binding : ActivityEditTaskBinding
+    lateinit var viewModel: EditTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditTaskBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[EditTaskViewModel::class.java]
 
         initViews()
     }
@@ -63,8 +67,8 @@ class EditTaskActivity : AppCompatActivity() {
                     isDone = false
                 )
 
-                TodoDatabase.getInstance().getTodosDao().updateTodo(newTask!!)
-                Log.e("title1", newTask.title.toString())
+                viewModel.updateTask(newTask!!)
+
                 finish()
             }
 

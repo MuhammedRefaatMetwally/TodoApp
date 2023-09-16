@@ -2,13 +2,19 @@ package com.route.todosappc38online.ui.fragments.addTodo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.route.todosappc38online.R
 import com.route.todosappc38online.clearTime
 import com.route.todosappc38online.data.database.TodoDatabase
 import com.route.todosappc38online.data.database.model.Task
+import com.route.todosappc38online.repository.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.Calendar
+import javax.inject.Inject
 
-class AddTodoViewModel : ViewModel() {
+@HiltViewModel
+class AddTodoViewModel @Inject constructor(private  val repository: TodoRepository) : ViewModel() {
     val title  = MutableLiveData<String>()
     val description  = MutableLiveData<String>()
     val date  = MutableLiveData<String>()
@@ -49,10 +55,13 @@ class AddTodoViewModel : ViewModel() {
         )
         calendar.clearTime()
 
-        TodoDatabase
+        viewModelScope.launch {
+            repository.insertTask(task)
+        }
+        /*TodoDatabase
             .getInstance()
             .getTodosDao()
-            .insertTodo(task)
+            .insertTodo(task)*/
        AddToDoClick()
     }
 }

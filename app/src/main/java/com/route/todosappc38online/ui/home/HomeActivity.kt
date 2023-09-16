@@ -9,7 +9,8 @@ import com.route.todosappc38online.databinding.ActivityHomeBinding
 import com.route.todosappc38online.fragments.AddTodoBottomSheetFragment
 import com.route.todosappc38online.fragments.TodosListFragment
 import com.route.todosappc38online.ui.fragments.settings_frag.SettingsFragment
-
+import dagger.hilt.android.AndroidEntryPoint
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityHomeBinding

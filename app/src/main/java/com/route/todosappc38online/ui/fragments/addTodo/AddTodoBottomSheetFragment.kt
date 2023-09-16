@@ -17,8 +17,10 @@ import com.route.todosappc38online.data.database.TodoDatabase
 import com.route.todosappc38online.data.database.model.Task
 import com.route.todosappc38online.databinding.FragmentAddTodoBinding
 import com.route.todosappc38online.ui.fragments.addTodo.AddTodoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
+@AndroidEntryPoint
 class AddTodoBottomSheetFragment : BottomSheetDialogFragment() {
 
     lateinit var calendar: Calendar
